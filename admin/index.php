@@ -21,8 +21,7 @@ include "sidebar.php";
 <head>
     <title>Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -110,7 +109,6 @@ include "sidebar.php";
                 }
                 break;
             case 'addproduct':
-                echo $_SESSION['stt'];
                 if (isset($_POST['addproduct'])) {
                     $name = $_POST['name'];
                     $firm = $_POST['firm'];
@@ -176,7 +174,18 @@ include "sidebar.php";
             case 'delcate': {
                     if (isset($_GET['id'])) {
                         $id = $_GET['id'];
-                        $del = $danhmuc->delcate($id);
+
+                        // Kiểm tra số lượng bản ghi có liên quan trong category_details
+                        if ($danhmuc->count_catedet($id) === 0) {
+                            // Không có dữ liệu liên quan, có thể xóa
+                            $del = $danhmuc->delcate($id);
+                            $_SESSION['stt'] = "Xóa thành công !!!";
+                        } else {
+                            // Có dữ liệu liên quan, không thể xóa
+                            echo "<script type='text/javascript'>
+                                swal('Không thể xóa', 'Danh mục này đang có dữ liệu liên quan.', 'error');
+                              </script>";
+                        }
                     }
                     $danhmuc_data = $danhmuc->showdanhmucadmin();
                     if (isset($_GET['page'])) {
@@ -728,12 +737,12 @@ include "sidebar.php";
     <?php
     if (isset($_SESSION['stt']) && $_SESSION['stt'] != '') {
     ?>
-    <script>
-    swal({
-        title: '<?php echo $_SESSION['stt'] ?>',
-        icon: "success",
-    });
-    </script>
+        <script>
+            swal({
+                title: '<?php echo $_SESSION['stt'] ?>',
+                icon: "success",
+            });
+        </script>
     <?php
         unset($_SESSION['stt']);
     }
@@ -741,49 +750,47 @@ include "sidebar.php";
     <?php
     if (isset($_SESSION['sttupdate']) && $_SESSION['sttupdate'] != '') {
     ?>
-    <script>
-    swal({
-        title: '<?php echo $_SESSION['sttupdate'] ?>',
-        icon: "success",
-    });
-    </script>
+        <script>
+            swal({
+                title: '<?php echo $_SESSION['sttupdate'] ?>',
+                icon: "success",
+            });
+        </script>
     <?php
         unset($_SESSION['sttupdate']);
     }
     ?>
     <?php if (isset($_GET['message']) && $_GET['message'] != '') { ?>
-    <script>
-    swal({
-        title: '<?php echo $_GET['message']; ?>',
-        icon: "success",
-    });
-    </script>
+        <script>
+            swal({
+                title: '<?php echo $_GET['message']; ?>',
+                icon: "success",
+            });
+        </script>
     <?php } ?>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script type="text/javascript" src="./assets/js/script.js"></script>
     <script type="text/javascript" src="./assets/js/ajax.js"></script>
 
     <script>
-    ClassicEditor
-        .create(document.querySelector('#description'), {
-            table: {
-                cellProperties: {
-                    verticalAlign: 'top' // Thiết lập căn đỉnh là mặc định
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                table: {
+                    cellProperties: {
+                        verticalAlign: 'top' // Thiết lập căn đỉnh là mặc định
+                    }
                 }
-            }
-        })
-        .then(editor => {
-            console.log('Editor was initialized', editor);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            })
+            .then(editor => {
+                console.log('Editor was initialized', editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 
 </body>

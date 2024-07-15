@@ -30,7 +30,12 @@ class DanhMuc
         $datas = $this->db->executeQueryAll($sql);
         return $datas;
     }
-
+    function count_catedet($id)
+    {
+        $sql = "SELECT Count(*) FROM category_details as cd, category as c where cd.category_id=c.category_id and c.category_id=$id";
+        $datas = $this->db->executeQueryAll($sql);
+        return $datas;
+    }
     function showdanhmucadmin(): array
     {
         $sql = "SELECT * FROM category";

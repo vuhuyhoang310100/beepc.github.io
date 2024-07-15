@@ -50,8 +50,9 @@
                 for ($j  = 1; $j <= $trang; $j++) {
 
                 ?>
-                    <li class="page-item"><a class="page-link" href="index.php?admin=category&page=<?php echo $j ?>"><?php echo $j ?></a>
-                    </li>
+                <li class="page-item"><a class="page-link"
+                        href="index.php?admin=category&page=<?php echo $j ?>"><?php echo $j ?></a>
+                </li>
                 <?php
                 }
 
@@ -87,13 +88,15 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-secondary" name="addcate" style="height:40px">Thêm</button>
+                            <button type="submit" class="btn btn-secondary" name="addcate"
+                                style="height:40px">Thêm</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="height:40px">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                        style="height:40px">Close</button>
                 </div>
             </div>
         </div>
@@ -104,32 +107,34 @@
 
 </div>
 <script type="text/javascript">
-    function confirm(ev) {
-        ev.preventDefault();
-        var urlToRedirect = ev.currentTarget.getAttribute('href');
-        console.log(urlToRedirect);
-        swal({
-                title: "Bạn có chắc muốn xoá không ?",
-                icon: "warning",
-                dangerMode: true,
-                buttons: true,
+function confirm(ev) {
+    ev.preventDefault();
+    var urlToRedirect = ev.currentTarget.getAttribute('href');
+    console.log(urlToRedirect);
+    swal({
+            title: "Bạn có chắc muốn xoá không ?",
+            icon: "warning",
+            dangerMode: true,
+            buttons: true,
 
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    swal("Xoá thành công !!!", {
-                        icon: "success",
-                    });
-                    setTimeout(function() {
-                        window.location.href = urlToRedirect;
-                    }, 1000);
-                } else {
-                    swal("Xoá không thành công !!!");
-                }
-            });
-    }
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("Xoá thành công !!!", {
+                    icon: "success",
+                });
+                setTimeout(function() {
+                    window.location.href = urlToRedirect;
+                }, 1000);
+            } else {
+                swal("Xoá không thành công !!!");
+            }
+        });
+}
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- <script>
 function confirmDelete(id) {
     var result = confirm("Bạn có chắc chắn muốn xoá danh mục này không?");
