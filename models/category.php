@@ -33,7 +33,7 @@ class DanhMuc
     function count_catedet($id)
     {
         $sql = "SELECT Count(*) FROM category_details as cd, category as c where cd.category_id=c.category_id and c.category_id=$id";
-        $datas = $this->db->executeQueryAll($sql);
+        $datas = $this->db->executeQueryOne($sql);
         return $datas;
     }
     function showdanhmucadmin(): array
@@ -56,10 +56,8 @@ class DanhMuc
     }
     function addCategory($categoryName)
     {
-        // Escape các ký tự đặc biệt để tránh tấn công SQL injection
         $safeCategoryName = mysqli_real_escape_string($this->db->getConnection(), $categoryName);
 
-        // Tạo truy vấn SQL để chèn dữ liệu vào bảng categories
         $sql = "INSERT INTO category (name) VALUES ('$safeCategoryName')";
 
         // Thực thi truy vấn
@@ -71,11 +69,9 @@ class DanhMuc
     }
     function addCategorydetails($category_id, $categoryName)
     {
-        // Escape các ký tự đặc biệt để tránh tấn công SQL injection
         $safeCategoryName = mysqli_real_escape_string($this->db->getConnection(), $categoryName);
 
 
-        // Tạo truy vấn SQL để chèn dữ liệu vào bảng categories
         $sql = "INSERT INTO category_details (`category_id`,`name`) VALUES ('$category_id','$safeCategoryName')";
 
         // Thực thi truy vấn
@@ -159,13 +155,20 @@ class DanhMuc
         }
     }
 
-    function delcatedet($id)
-    {
-        $sql = "DELETE FROM category_details where category_details_id = $id";
-        if (mysqli_query($this->db->getConnection(), $sql)) {
-            return true;
+    function delcatedet($id) {
+        $countSql = "SELECT COUNT(*) AS total_products FROM products WHERE category_details_id = $id";
+        $result = mysqli_query($this->db->getConnection(), $countSql);
+        $row = mysqli_fetch_assoc($result);
+    
+        if ($row['total_products'] == 0) {
+            $sql = "DELETE FROM category_details WHERE category_details_id = $id";
+            if (mysqli_query($this->db->getConnection(), $sql)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return false; 
         }
     }
     function updatecate($name, $id)
@@ -189,7 +192,5 @@ class DanhMuc
 }
 
 
-// Sử dụng
-// Đảm bảo rằng bạn đã tạo đối tượng kết nối từ lớp Connection
 
 ?>

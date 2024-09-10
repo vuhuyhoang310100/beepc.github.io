@@ -51,7 +51,7 @@ if (isset($_POST['register']) && $_POST['register']) {
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example1c"><i class="bi bi-person-circle"></i> Họ tên</label>
-                                                <input type="text" id="form3Example1c" class="form-control form-control-lg py-3" name="username" autocomplete="off" placeholder="Nhập tên của bạn..." style="border-radius:25px ;" />
+                                                <input type="text" id="form3Example1c" class="form-control form-control-lg py-3" name="username" autocomplete="off" placeholder="Nhập tên của bạn..." style="border-radius:25px ;" required />
 
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@ if (isset($_POST['register']) && $_POST['register']) {
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example3c"><i class="bi bi-envelope-at-fill"></i> Địa chỉ email</label>
-                                                <input type="email" id="form3Example3c" class="form-control form-control-lg py-3" name="email" autocomplete="off" placeholder="Nhập địa chỉ email..." style="border-radius:25px ;" />
+                                                <input type="email" id="form3Example3c" class="form-control form-control-lg py-3" name="email" autocomplete="off" placeholder="Nhập địa chỉ email..." style="border-radius:25px ;" required />
 
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@ if (isset($_POST['register']) && $_POST['register']) {
                                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example4c"><i class="bi bi-chat-left-dots-fill"></i> Mật khẩu</label>
-                                                <input type="password" id="form3Example4c" class="form-control form-control-lg py-3" name="password" autocomplete="off" placeholder="Hãy nhập mật khẩu..." style="border-radius:25px ;" />
+                                                <input type="password" id="form3Example4c" class="form-control form-control-lg py-3" name="password" autocomplete="off" placeholder="Hãy nhập mật khẩu..." style="border-radius:25px ;" required />
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">

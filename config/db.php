@@ -4,8 +4,8 @@ class Database
 {
     private $host = "localhost";
     private $username = "root";
-    private $password = "";
-    private $db = "app3";
+    private $password = "123456";
+    private $db = "app";
     private $conn;
 
     public function __construct()
@@ -49,7 +49,6 @@ class Database
 
         // Kiểm tra xem truy vấn có thành công không
         if ($result === false) {
-            // Nếu truy vấn không thành công, in ra thông báo lỗi và trả về false
             echo "Error: " . mysqli_error($this->conn);
             return false;
         }

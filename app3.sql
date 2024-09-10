@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2024 at 11:15 AM
+-- Generation Time: Aug 13, 2024 at 05:25 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -110,7 +110,9 @@ INSERT INTO `carts` (`cart_id`, `code_cart`, `user_id`, `fullname`, `address`, `
 (105, 'BeeTech620', 2, 'Vũ Huy Hoàng', '759 Trần Phú', 'usertest@gmail.com', '0794651157', 9489500, 3, 0, 0, '2024-05-23 13:04:51'),
 (106, 'BeeTech761', 2, 'Vũ Huy Hoàng', '759 Trần Phú', 'usertest@gmail.com', '0794651157', 9489500, 3, 0, 0, '2024-05-23 13:06:00'),
 (107, 'BeeTech271', 2, 'Vũ Huy Hoàng', '759 Trần Phú', 'usertest@gmail.com', '0794651157', 9288950, 3, 0, 0, '2024-05-23 13:06:49'),
-(108, 'BeeTech402', 2, 'Vũ Huy Hoàng', '759 Trần Phú', 'usertest@gmail.com', '0794651157', 9288950, 3, 0, 0, '2024-05-23 13:11:39');
+(108, 'BeeTech402', 2, 'Vũ Huy Hoàng', '759 Trần Phú', 'usertest@gmail.com', '0794651157', 9288950, 3, 0, 0, '2024-05-23 13:11:39'),
+(109, 'BeeTech139', 178, 'ádsadsadas', '700 Trần Phú', 'nthuyngan079@gmail.com', '0794651159', 44100000, 1, 0, 0, '2024-08-01 07:38:53'),
+(110, 'BeeTech863', 179, 'ádsdas', '756 Trần Phú', 'zxczxczcz@gmail.ca', '0794651158', 273779, 1, 0, 0, '2024-08-07 08:46:06');
 
 -- --------------------------------------------------------
 
@@ -217,7 +219,10 @@ INSERT INTO `cart_details` (`detail_id`, `cart_id`, `product_id`, `name`, `quant
 (114, 105, 225, 'Bee-Tech Đồ họa ', 1, 8990000),
 (115, 106, 225, 'Bee-Tech Đồ họa ', 1, 8990000),
 (116, 107, 224, 'Bee-Tech Đồ họa', 1, 8799000),
-(117, 108, 224, 'Bee-Tech Đồ họa', 1, 8799000);
+(117, 108, 224, 'Bee-Tech Đồ họa', 1, 8799000),
+(118, 109, 245, 'asdasd', 1, 12000000),
+(119, 109, 229, 'BEE-TECH Gaming i9-11900k', 1, 30000000),
+(120, 110, 246, 'Nguyễn Thị Thuý Ngân', 1, 213123);
 
 -- --------------------------------------------------------
 
@@ -238,7 +243,8 @@ INSERT INTO `category` (`category_id`, `name`) VALUES
 (1, 'PC'),
 (2, 'Laptop'),
 (3, 'Gear'),
-(4, 'Linh kiện');
+(4, 'Linh kiện'),
+(30, 'test');
 
 -- --------------------------------------------------------
 
@@ -269,7 +275,6 @@ INSERT INTO `category_details` (`category_details_id`, `category_id`, `name`) VA
 (10, 4, 'CPU'),
 (11, 4, 'VGA'),
 (12, 4, 'Mainboard'),
-(18, 6, 'Router'),
 (20, 4, 'Linh kiện mạng'),
 (21, 4, 'SSD'),
 (22, 4, 'HDD'),
@@ -280,14 +285,7 @@ INSERT INTO `category_details` (`category_details_id`, `category_id`, `name`) VA
 (32, 3, 'Loa'),
 (36, 4, 'Gear'),
 (38, 3, 'Màn'),
-(43, 12, 'ABC'),
-(44, 12, 'ABC123'),
-(45, 13, 'ABC123'),
-(46, 13, 'ABCDEF'),
-(47, 13, 'ABCDEF'),
-(48, 13, 'ABC123'),
-(49, 13, 'ABC123'),
-(53, 3, 'asdasd1');
+(56, 30, 'test1');
 
 -- --------------------------------------------------------
 
@@ -436,7 +434,9 @@ INSERT INTO `products` (`product_id`, `name`, `img`, `firm`, `category_id`, `cat
 (223, 'Bee-Tech Đồ họa', '250_45707_pcapt0046_pba.png', 'Ryzen 5 5600G', 1, 2, 7599000, 50, '<p>Bee-Tech Đồ họa</p>', '2024-04-20 02:18:23'),
 (224, 'Bee-Tech Đồ họa', '250_45705_pcdsbasic.png', 'Ryzen 5 5500', 1, 2, 8799000, 50, '<p>Bee-Tech Đồ họa</p>', '2024-04-20 02:19:08'),
 (225, 'Bee-Tech Đồ họa ', '250_45702_pcdsbasic.png', 'i3-10105F', 1, 1, 8990000, 50, '<p>Bee-Tech Đồ họa</p>', '2024-04-20 02:19:54'),
-(229, 'BEE-TECH Gaming i9-11900k', 'z5171321895798_bd01baeaa72c62c2e05080688f87d435.jpg', 'RX6800XT', 1, 1, 30000000, 50, '<p>BEE-TECH Gaming i9-11900k</p>', '2024-04-21 03:54:46');
+(229, 'BEE-TECH Gaming i9-11900k', 'z5171321895798_bd01baeaa72c62c2e05080688f87d435.jpg', 'RX6800XT', 1, 1, 30000000, 50, '<p>BEE-TECH Gaming i9-11900k</p>', '2024-04-21 03:54:46'),
+(245, 'asdasd', 'z5375222721377_8ebc24e8a0dcc703dcd08e853ff2014b.jpg', 'aaaaaaaaaa', 30, 56, 12000000, 50, '', '2024-07-14 15:49:32'),
+(246, 'Nguyễn Thị Thuý Ngân', 'z5400980506500_2836529ac2f3b689116069a525822b3a.jpg', '123123', 30, 56, 213123, 50, '<p>aaaa</p>', '2024-07-14 15:49:54');
 
 -- --------------------------------------------------------
 
@@ -577,7 +577,9 @@ INSERT INTO `user` (`user_id`, `username`, `passwd`, `email`, `role`, `creat_at`
 (162, 'bee923', 'e10adc3949ba59abbe56e057f20f883e', 'sneakynetga1metop@gmail.com', 0, '2024-05-21 09:11:04'),
 (164, 'usertest99', 'e10adc3949ba59abbe56e057f20f883e', 'usertest99@gmail.com', 0, '2024-05-21 15:23:19'),
 (170, 'usertest2@gmail.com', '7ccd87754682f5e994a8a70389836ba2', 'usertest2@gmail.com', 0, '2024-05-21 15:42:27'),
-(177, 'usertest5', 'e10adc3949ba59abbe56e057f20f883e', 'usertest5@gmail.com', 0, '2024-05-21 16:18:08');
+(177, 'usertest5', 'e10adc3949ba59abbe56e057f20f883e', 'usertest5@gmail.com', 0, '2024-05-21 16:18:08'),
+(178, 'bee675', 'e10adc3949ba59abbe56e057f20f883e', 'nthuyngan079@gmail.com', 0, '2024-08-01 07:38:53'),
+(179, 'bee853', 'e10adc3949ba59abbe56e057f20f883e', 'zxczxczcz@gmail.ca', 0, '2024-08-07 08:46:06');
 
 -- --------------------------------------------------------
 
@@ -633,7 +635,8 @@ ALTER TABLE `category`
 -- Indexes for table `category_details`
 --
 ALTER TABLE `category_details`
-  ADD PRIMARY KEY (`category_details_id`);
+  ADD PRIMARY KEY (`category_details_id`),
+  ADD KEY `fk_cd_c` (`category_id`);
 
 --
 -- Indexes for table `discount`
@@ -687,25 +690,25 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `cart_details`
 --
 ALTER TABLE `cart_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `category_details`
 --
 ALTER TABLE `category_details`
-  MODIFY `category_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `category_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `discount`
@@ -717,7 +720,7 @@ ALTER TABLE `discount`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT for table `rating`
@@ -735,7 +738,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `user_details`
@@ -758,6 +761,12 @@ ALTER TABLE `carts`
 --
 ALTER TABLE `cart_details`
   ADD CONSTRAINT `fk_orderdt_order` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `category_details`
+--
+ALTER TABLE `category_details`
+  ADD CONSTRAINT `fk_cd_c` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
 
 --
 -- Constraints for table `products`

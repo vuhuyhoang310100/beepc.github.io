@@ -120,7 +120,7 @@
             foreach ($bestseller as $item) {
                 $show_star = "SELECT AVG (rating) as avg_star FROM rating where product_id = " . $item['product_id'] . "";
                 $query = $conn->executeQueryOne($show_star);
-                $star = round($query['avg_star']);
+                $star = round($query['avg_star']??0);
                 $greystar = 5 - $star;
                 $imglink = USER_PATH . $item['img'];
                 $countreviews = count($reviews->loadall_comment($item['product_id']));
@@ -185,7 +185,7 @@
             foreach ($newproduct as $item) {
                 $show_star = "SELECT AVG (rating) as avg_star FROM rating where product_id = " . $item['product_id'] . "";
                 $query = $conn->executeQueryOne($show_star);
-                $star = round($query['avg_star']);
+                $star = round($query['avg_star'] ?? 0);
                 $greystar = 5 - $star;
                 $imglink = USER_PATH . $item['img'];
                 $countreviews = count($reviews->loadall_comment($item['product_id']));

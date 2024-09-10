@@ -17,43 +17,70 @@ class SanPham
     {
         $this->db = new Database();
     }
-    function countsp()
+    public function countsp($categoryId = '', $categoryDetailsId = '')
     {
-        $sql = "select * from products";
-        $datas = $this->db->executeQueryAll($sql);
-        return $datas;
-    }
-    function showsp($id = '', $begin)
-    {
-
-        $sql = "select * from products";
-        if ($id > 0) {
-            $sql .= " WHERE category_details_id =" . $id;
+        $sql = "SELECT COUNT(*) as total FROM products";
+    
+        $conditions = [];
+    
+        if ($categoryId !== '') {
+            $categoryId = intval($categoryId); 
+            $conditions[] = "category_id = $categoryId";
         }
-        $sql .= " ORDER BY product_id DESC LIMIT $begin,9";
+    
+        if ($categoryDetailsId !== '') {
+            $categoryDetailsId = intval($categoryDetailsId); 
+            $conditions[] = "category_details_id = $categoryDetailsId";
+        }
+    
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+        }
+    
+        $result = $this->db->executeQueryOne($sql);
+        return $result['total'];
+    }
+    
+    public function showsp($begin, $itemsPerPage = 9, $categoryId = '', $categoryDetailsId = '')
+    {
+        $sql = "SELECT * FROM products";
+    
+        $conditions = [];
+    
+        if ($categoryId !== '') {
+            $categoryId = intval($categoryId);
+            $conditions[] = "category_id = $categoryId";
+        }
+    
+        if ($categoryDetailsId !== '') {
+            $categoryDetailsId = intval($categoryDetailsId);
+            $conditions[] = "category_details_id = $categoryDetailsId";
+        }
+    
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+        }
+    
+        $sql .= " ORDER BY product_id DESC LIMIT $begin, $itemsPerPage";
+    
         $datas = $this->db->executeQueryAll($sql);
         return $datas;
     }
+    
     public function countpro($id = '')
     {
-        // Bắt đầu xây dựng truy vấn SQL để đếm số lượng đơn hàng
         $sql = "SELECT COUNT(*) AS total FROM products";
 
-        // Thêm điều kiện nếu có
         if ($id !== '' && $id > 0) {
             $sql .= " WHERE category_details_id = $id";
         }
 
-        // Thực hiện truy vấn và lấy kết quả
         $result = $this->db->executeQueryOne($sql);
 
         // Kiểm tra kết quả
         if ($result) {
-            // Lấy số lượng đơn hàng từ kết quả truy vấn
             $totalOrders = $result['total'];
         } else {
-            // Xử lý lỗi nếu có
-            // Ví dụ: return false; hoặc throw new Exception("Database error");
             $totalOrders = 0; // Trả về số lượng là 0 nếu có lỗi
         }
 
@@ -80,23 +107,48 @@ class SanPham
             return false;
         }
     }
-    function updateproduct($id, $name, $firm, $img, $price, $category_id, $category_details_id, $description)
+    function updateproduct($id, $name, $firm, $img, $price, $description, $category_id = null, $category_details_id = null)
     {
-        if ($img == "") {
-            $sql = "UPDATE products 
-            set `name` = '$name',`firm`='$firm',`price`=$price,`category_id`=$category_id,
-            `category_details_id`=$category_details_id,`description`='$description' 
-            where `product_id`  = $id";
+        $conn = $this->db->getConnection();
+    
+        $id = mysqli_real_escape_string($conn, $id);
+        $name = mysqli_real_escape_string($conn, $name);
+        $firm = mysqli_real_escape_string($conn, $firm);
+        $img = mysqli_real_escape_string($conn, $img);
+        $price = mysqli_real_escape_string($conn, $price);
+        $description = mysqli_real_escape_string($conn, $description);
+        
+        $query = "SELECT category_id, category_details_id FROM products WHERE product_id = '$id'";
+        $result = mysqli_query($conn, $query);
+    
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+    
+            $current_category_id = (isset($category_id) && $category_id !== '') ? intval($category_id) : $row['category_id'];
+            $current_category_details_id = (isset($category_details_id) && $category_details_id !== '') ? intval($category_details_id) : $row['category_details_id'];
+    
+            $sql = "UPDATE products SET 
+                        `name` = '$name', 
+                        `firm` = '$firm', 
+                        `price` = '$price', 
+                        `category_id` = '$current_category_id',
+                        `category_details_id` = '$current_category_details_id', 
+                        `description` = '$description'";
+    
+            if ($img !== "") {
+                $sql .= ", `img` = '$img'";
+            }
+    
+            $sql .= " WHERE `product_id` = '$id'";
+    
+            if (mysqli_query($conn, $sql)) {
+                return true;
+            } else {
+                error_log("SQL Error: " . mysqli_error($conn));
+                return false;
+            }
         } else {
-            $sql = "UPDATE products 
-            set `name` = '$name',`firm`='$firm',`price`=$price,`category_id`=$category_id,
-            `category_details_id`=$category_details_id,`description`='$description',`img`='$img' 
-            where `product_id`  = $id";
-        }
-
-        if (mysqli_query($this->db->getConnection(), $sql)) {
-            return true;
-        } else {
+            error_log("SQL Error: " . mysqli_error($conn));
             return false;
         }
     }

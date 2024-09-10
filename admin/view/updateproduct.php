@@ -122,15 +122,17 @@ if (isset($sanpham) && (is_array($sanpham))) {
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                     <?php
+                    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
                     for ($j  = 1; $j <= $trang; $j++) {
+                        $activeClass = ($j == $currentPage) ? 'active' : '';
                         if (isset($_GET['idproduct'])) {
                     ?>
-                            <li class="page-item"><a class="page-link" href="index.php?admin=updateproduct&idproduct=<?php echo $id ?>&page=<?php echo $j ?>"><?php echo $j; ?></a>
+                            <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=updateproduct&idproduct=<?php echo $id ?>&page=<?php echo $j ?>"><?php echo $j; ?></a>
                             </li>
                         <?php
                         } else {
                         ?>
-                            <li class="page-item"><a class="page-link" href="index.php?admin=updateproduct&page=<?php echo $j ?>"><?php echo $j ?></a>
+                            <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=updateproduct&page=<?php echo $j ?>"><?php echo $j ?></a>
                             </li>
                     <?php
                         }

@@ -32,7 +32,7 @@
                 <div class="d-flex">
                     <h5 class="font-size-18">
                     <a href="index.php?act=cartdetails&id=' . $cart['cart_id'] . '" class="text-danger">' . $cart['code_cart'] . '</a></h5>
-                    <a class="text-dark" href="../../view/user/print.php?cardid=' . $cart['cart_id'] . '" target="_blank"><i class="fa fa-print ms-3" aria-hidden="true"></i></a>
+                    <a class="text-dark" href="./view/user/print.php?cardid=' . $cart['cart_id'] . '" target="_blank"><i class="fa fa-print ms-3" aria-hidden="true"></i></a>
                 </div>
             </div>
          

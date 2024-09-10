@@ -31,8 +31,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css
 
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
-        <div class="container d-flex justify-content-between align-items-center">
-            <img src="public/asset/img/123.png" style="max-height: 90px;" alt="">
+        <di class="container d-flex justify-content-between align-items-center">
+            <a href="index.php" alt=""><img src="public/asset/img/123.png" style="max-height: 90px;" alt=""></a>
             <!-- FIX LOGO 03-03-2024 -->
             <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between ml"
                 id="templatemo_main_nav">

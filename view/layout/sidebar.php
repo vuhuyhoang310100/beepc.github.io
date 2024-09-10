@@ -16,7 +16,12 @@
                            <ul class="collapse show list-unstyled pl-3">';
 
                     foreach ($category['details'] as $detailsID => $detailsName) {
-                        echo '<li><a class="text-decoration-none" href="index.php?act=product&id=' . $detailsID . '">' . $detailsName . '</a></li>';
+                        $dem = $sanpham ->countsp('',$detailsID);
+                        echo '<li><div class="d-flex justify-content-between"><a class="text-decoration-none" href="index.php?act=product&id=' . $detailsID . '">' . $detailsName . '</a>
+                        <span class="me-2">'.$dem.'</span>
+                        </div>
+                        
+                        </li>';
                     }
 
                     echo '</ul>

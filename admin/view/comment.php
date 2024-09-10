@@ -50,10 +50,13 @@
             <ul class="pagination justify-content-end">
 
                 <?php
+                        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
 
                 for ($j  = 1; $j <= $trang; $j++) {
+                    $activeClass = ($j == $currentPage) ? 'active' : '';
+
                 ?>
-                    <li class="page-item"><a class="page-link" href="index.php?admin=comment&page=<?php echo $j ?>"><?php echo $j ?></a>
+                    <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=comment&page=<?php echo $j ?>"><?php echo $j ?></a>
                     </li>
                 <?php
                 }

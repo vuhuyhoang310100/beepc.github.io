@@ -174,7 +174,7 @@
 
             <!-- Thông tin thanh toán  -->
             <?php
-
+ 
             if (!empty($_SESSION['cart'])) {
 
                 echo '

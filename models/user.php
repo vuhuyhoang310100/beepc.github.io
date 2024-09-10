@@ -140,12 +140,12 @@ class User
             return false;
         }
     }
-    function addandgetlastid($username, $pass, $email)
+    function addandgetlastid($username, $pass, $email,$temp_email)
     {
 
 
         // Sử dụng prepared statement để tránh tấn công SQL injection
-        $sql = "INSERT INTO user(`username`,`passwd`,`email`) VALUES ('" . $username . "','" . $pass . "','" . $email . "')";
+        $sql = "INSERT INTO user(`username`,`passwd`,`email`,`temp_email`) VALUES ('" . $username . "','" . $pass . "','" . $email . "','".$temp_email."')";
         if (mysqli_query($this->db->getConnection(), $sql)) {
             $last_id = mysqli_insert_id($this->db->getConnection());
             mysqli_close($this->db->getConnection());

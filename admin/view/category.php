@@ -1,5 +1,5 @@
 <div class="w-50" style="margin: 0 auto;">
-    <h3>Danh sach danh mục</h3>
+    <h3>Danh sách danh mục</h3>
     <table class="table">
         <?php
         $i = 1;
@@ -22,7 +22,7 @@
             <td class="text-center">' . $dmname . '</td>
             <td class="text-center">' . $count_subcategories . '</td>
             <td class="text-center">
-            <a href="index.php?admin=delcate&id=' . $category_id . '" style="cursor: pointer;" class="nav-icon position-relative text-decoration-none ms-1" onclick="confirm(event)">
+            <a href="index.php?admin=delcate&id=' . $category_id . '" style="cursor: pointer;" class="nav-icon position-relative text-decoration-none ms-1">
         <i class="fa fa-trash text-dark mr-2"></i>
         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
         </a>
@@ -47,12 +47,13 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
                 <?php
+                    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
                 for ($j  = 1; $j <= $trang; $j++) {
+                    $activeClass = ($j == $currentPage) ? 'active' : '';
 
                 ?>
-                <li class="page-item"><a class="page-link"
-                        href="index.php?admin=category&page=<?php echo $j ?>"><?php echo $j ?></a>
-                </li>
+                    <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=category&page=<?php echo $j ?>"><?php echo $j ?></a>
+                    </li>
                 <?php
                 }
 
@@ -68,6 +69,7 @@
         <button type="button" class="btn btn-secondary" style="height:40px" data-toggle="modal" data-target="#myModal">
             Thêm danh mục
         </button>
+
     </div>
     <!-- Modal -->
     <!-- ADD CATEGORY -->
@@ -88,15 +90,13 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-secondary" name="addcate"
-                                style="height:40px">Thêm</button>
+                            <button type="submit" class="btn btn-secondary" name="addcate" style="height:40px">Thêm</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"
-                        style="height:40px">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="height:40px">Close</button>
                 </div>
             </div>
         </div>
@@ -106,43 +106,5 @@
 </div>
 
 </div>
-<script type="text/javascript">
-function confirm(ev) {
-    ev.preventDefault();
-    var urlToRedirect = ev.currentTarget.getAttribute('href');
-    console.log(urlToRedirect);
-    swal({
-            title: "Bạn có chắc muốn xoá không ?",
-            icon: "warning",
-            dangerMode: true,
-            buttons: true,
 
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                swal("Xoá thành công !!!", {
-                    icon: "success",
-                });
-                setTimeout(function() {
-                    window.location.href = urlToRedirect;
-                }, 1000);
-            } else {
-                swal("Xoá không thành công !!!");
-            }
-        });
-}
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- <script>
-function confirmDelete(id) {
-    var result = confirm("Bạn có chắc chắn muốn xoá danh mục này không?");
-    if (result) {
-        window.location = "index.php?admin=delcate&id=" + id;
-    } else {
-        return false;
-        s
-    }
-}
-</script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

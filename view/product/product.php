@@ -13,6 +13,16 @@
          <div class="col-md-6 pb-4"></div>
      </div>
      <div class="row">
+        <?php
+        if(empty($products)){
+            echo '<div class="alert alert-success w-75 ms-3" role="alert">
+  <h4 class="alert-heading">Rất tiếc !!</h4>
+  <p>Sản phẩm mà bạn đang tìm hiện đã hết, chúng tôi sẽ cập nhật thêm trong thời gian sớm nhấ !!!t</p>
+  <hr>
+  <p>Cảm ơn bạn đã quan tâm đến cửa hàng chúng tôi !!!</p> 
+</div>';
+        }
+        ?>
          <?php
             foreach ($products as $product) {
                 extract($product);

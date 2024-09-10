@@ -31,24 +31,24 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
         switch ($act) {
                 case 'product':
                         $sanpham = new SanPham($conn);
+                        // get id nếu tồn tại id, hoặc mặc định là 1 
 
-                        if (isset($_GET['id'])) {
-                                $id = $_GET['id'];
-                        } else {
-                                $id = 0;
+                        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+                        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+                        $itemsPerPage = 9;
+                        $count = $sanpham->countsp();
+                        $begin = ($page == 1) ? 0 : ($page - 1) * $itemsPerPage;
+        
+                        $trang = ceil($count / $itemsPerPage);
+                        if($id){
+                                $products = $sanpham->showsp($begin, $itemsPerPage,'',$id);
+
                         }
-                        if (isset($_GET['page'])) {
-                                $page = $_GET['page'];
-                        } else {
-                                $page = 1;
-                        }
-                        if ($page == '' || $page == 1) {
-                                $begin = 0;
-                        } else {
-                                $begin = ($page * 9) - 9;
+                        else{
+                                $products = $sanpham->showsp($begin, $itemsPerPage);
+
                         }
 
-                        $products = $sanpham->showsp($id, $begin);
                         if (isset($_POST['productid'])) {
                                 $id = $_POST['productid'];
                                 $name = $_POST['name'];
@@ -208,10 +208,11 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
                                 $add = $_POST['address'];
                                 $paymentMethod = $_POST['paymentMethod'];
                                 if (!isset($_SESSION['id_user'])) {
-                                        $emailuser = $_POST['email'];
+                                        $emailuser = $_POST['email']. '_' . uniqid();
+                                        $tempEmail = $_POST['email'];
                                         $username = "bee" . rand(1, 999);
                                         $password = md5("123456");
-                                        $iduser = $usermod->addandgetlastid($username, $password, $emailuser);
+                                        $iduser = $usermod->addandgetlastid($username, $password, $emailuser,$tempEmail);
                                 } else {
                                         $user_detail = $usermod->getdetailsbyid($_SESSION['id_user']);
                                         $email = $usermod->getuserbyid($_SESSION['id_user']);
@@ -220,7 +221,7 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
                                         $emailuser = $email['email'];
                                 }
 
-                                $codecart = "BeeTech" . rand(0, 999);
+                                $codecart = "BeeTech" ."-".uniqid();
                                 //Sử dụng phương thức để trả về id vừa insert
                                 if ($paymentMethod == 1 || $paymentMethod == 2) {
                                         $idcart = $cart->insertcart($codecart, $iduser, $fullname, $add, $emailuser, $tel, $_SESSION['totalall'], $paymentMethod);
@@ -233,7 +234,8 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
                                                         $total = $cartdetails['5'];
                                                         $addcartdetails = $cart->insertcart_details($idcart, $id_sanpham, $name, $soluong, $total);
                                                 }
-                                                $mailaddress = $emailuser;
+                                                
+                                                $mailaddress = $tempEmail == null ? $emailuser : $tempEmail  ;
                                                 $title = "Cảm ơn quý khách đã đặt hàng tại Bee-Tech";
                                                 $content = "<h5>Đơn hàng bao gồm: </h5>";
                                                 $content .= "<h5>Mã hoá đơn: " . $codecart . "</h5>";

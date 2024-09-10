@@ -35,11 +35,9 @@ include "sidebar.php";
 <body>
     <?php
     if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
-        // Thiết lập session showAlert
         $_SESSION['showAlert'] = true;
-        // Chuyển hướng đến trang đăng nhập
         header("Location: ../auth/login.php");
-        exit; // Kết thúc chương trình sau khi chuyển hướng
+        exit; 
     } else {
         $danhmuc = new DanhMuc($conn);
         $product = new SanPham($conn);
@@ -71,7 +69,6 @@ include "sidebar.php";
                 break;
             case 'categorydetails':
 
-                // $danhmuc_data = $danhmuc->showdanhmucadmin();
                 $categories_details = $danhmuc->showdmctadminpage();
                 $danhmuc_data = $danhmuc->showdanhmucadmin();
 
@@ -113,49 +110,53 @@ include "sidebar.php";
                     $name = $_POST['name'];
                     $firm = $_POST['firm'];
                     $category_id = $_POST['category'];
-                    //upload hình vào thư mục uploads
-                    $target_file = basename($_FILES["img"]["name"]);
-                    $img = $target_file;
-                    $uploadOk = 1;
-                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                    if (
-                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                        && $imageFileType != "gif"
-                    ) {
-                        // echo "Chỉ được upload các file jpg,png,jpeg,gif";
-                        $uploadOk = 0;
-                    }
-                    $category_details_id =  $_POST['category_details'];
+                    $category_details_id = $_POST['category_details'];
                     $price = $_POST['price'];
-                    $description = str_replace(array("\n", "\r", "\r\n", "\s",), '', $_POST['description']);
-                    if ($uploadOk == 1) {
-                        move_uploaded_file($_FILES["img"]["tmp_name"],  ADMIN_PATH . $target_file);
-                        if ($product->addsp($name, $_FILES["img"]["name"], $firm, $category_id, $category_details_id, $price, $description)) {
-                            $_SESSION['stt'] = "Thêm thành công !!!";
+                    $description = str_replace(array("\n", "\r", "\r\n", "\s"), '', $_POST['description']);
+                    
+                    $img = null; 
+                    if (isset($_FILES["img"]) && $_FILES["img"]["error"] == UPLOAD_ERR_OK) {
+                        $target_file = basename($_FILES["img"]["name"]);
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                        $uploadOk = 1;
+            
+                        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                            $uploadOk = 0;
+                            $_SESSION['stt'] = "Chỉ được upload các file jpg, png, jpeg, gif";
+                        }
+            
+                        if ($uploadOk == 1) {
+                            if (move_uploaded_file($_FILES["img"]["tmp_name"], ADMIN_PATH . $target_file)) {
+                                $img = $target_file; 
+                            } else {
+                                $_SESSION['stt'] = "Tải hình ảnh lên không thành công";
+                            }
                         } else {
-                            $_SESSION['stt'] = "Thêm không thành công !!!";
-                        };
+                            $_SESSION['stt'] = "Loại tệp không hợp lệ";
+                        }
+                    }
+            
+                    if ($product->addsp($name, $img, $firm, $category_id, $category_details_id, $price, $description)) {
+                        $_SESSION['stt'] = "Thêm thành công !!!";
+                        $_SESSION['icon'] = "success";
+
+                    } else {
+                        $_SESSION['stt'] = "Thêm không thành công !!!";
+                        $_SESSION['icon'] = "error";
+
                     }
                 }
                 $categories_details = $danhmuc->showdanhmucadmin();
 
-                if (isset($_GET['id'])) {
-                    $id = $_GET['id'];
-                } else {
-                    $id = 0;
-                }
-                if (isset($_GET['page'])) {
-                    $page = $_GET['page'];
-                } else {
-                    $page = 1;
-                }
-                if ($page == '' || $page == 1) {
-                    $begin = 0;
-                } else {
-                    $begin = ($page * 9) - 9;
-                }
+               
+                $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+                $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+                $itemsPerPage = 9;
+                $count = $product->countsp();
+                $begin = ($page == 1) ? 0 : ($page - 1) * $itemsPerPage;
 
-                $products  = $product->showsp($id, $begin);
+                $trang = ceil($count / $itemsPerPage);
+                $products = $product->showsp($begin, $itemsPerPage);
                 include "view/product.php";
                 break;
             case 'addcatedetails':
@@ -174,17 +175,22 @@ include "sidebar.php";
             case 'delcate': {
                     if (isset($_GET['id'])) {
                         $id = $_GET['id'];
+                        $result = $danhmuc->getonedm($id);
 
-                        // Kiểm tra số lượng bản ghi có liên quan trong category_details
-                        if ($danhmuc->count_catedet($id) === 0) {
-                            // Không có dữ liệu liên quan, có thể xóa
-                            $del = $danhmuc->delcate($id);
-                            $_SESSION['stt'] = "Xóa thành công !!!";
+                        if ($danhmuc->count_catedet($id)['Count(*)'] == 0) {
+                            if ($result === null || empty($result)) {
+                                $_SESSION['stt'] = "Danh mục không tồn tại !!!";
+                                $_SESSION['icon'] = "info";
+                            } else {
+                                $del = $danhmuc->delcate($id);
+                                $_SESSION['stt'] = "Xóa thành công !!!";
+                                $_SESSION['icon'] = "success";
+                            }
+
+
                         } else {
-                            // Có dữ liệu liên quan, không thể xóa
-                            echo "<script type='text/javascript'>
-                                swal('Không thể xóa', 'Danh mục này đang có dữ liệu liên quan.', 'error');
-                              </script>";
+                            $_SESSION['stt'] = "Xóa không thành công !!!";
+                            $_SESSION['icon'] = "error";
                         }
                     }
                     $danhmuc_data = $danhmuc->showdanhmucadmin();
@@ -205,11 +211,48 @@ include "sidebar.php";
             case 'delcatedet': {
                     if (isset($_GET['iddet'])) {
                         $id = $_GET['iddet'];
-                        if ($danhmuc->delcatedet($id)) {
-                            header("Location: index.php?admin=categorydetails");
+                       $result = $danhmuc->getonedetdm($id);
+                        if($result === null || empty($result)){
+                                $_SESSION['stt'] = "Danh mục không tồn tại !!!";
+                                $_SESSION['icon'] = "info";
                         }
-                    }
-                    echo '<script>alert("Xoá danh mục chi tiết thành công!");</script>';
+                        else{
+                            if ($danhmuc->delcatedet($id)) {
+                        
+                    
+                                $_SESSION['stt'] = "Xóa thành công !!!";
+                                $_SESSION['icon'] = "success";
+                                }
+                        else
+                            {
+                                    $_SESSION['stt'] = "Không thể xóa danh mục chi tiết này !!!";
+                                    $_SESSION['icon'] = "error";
+                                }
+                            }
+                        }
+                   
+                $categories_details = $danhmuc->showdmctadminpage();
+                $danhmuc_data = $danhmuc->showdanhmucadmin();
+                if (isset($_GET['idproduct'])) {
+                    $id = $_GET['idproduct'];
+                } else {
+                    $id = 0;
+                }
+                if (isset($_GET['page'])) {
+                    $page = $_GET['page'];
+                } else {
+                    $page = 1;
+                }
+                if ($page == '' || $page == 1) {
+                    $begin = 0;
+                } else {
+                    $begin = ($page * 9) - 9;
+                }
+
+                $danhmucpage = $danhmuc->showdmctpage($id, $begin);
+
+
+                include "view/categorydetails.php"; 
                     break;
                 }
             case 'updatecate': {
@@ -317,7 +360,7 @@ include "sidebar.php";
                         } else {
                             $img = "";
                         }
-                        if ($update = $product->updateproduct($idsanpham, $name, $firm, $img, $price, $category, $category_details, $description)) {
+                        if ($update = $product->updateproduct($idsanpham, $name, $firm, $img, $price,$description,$category, $category_details)) {
                             $_SESSION['sttupdate'] = "Cập nhật thành công !!!";
                         } else {
                             $_SESSION['sttupdate'] = "Cập nhật không thành công !!!";
@@ -328,19 +371,17 @@ include "sidebar.php";
                         $id = $_GET['cart_det_id'];
                     } else {
                         $id = 0;
-                    }
-                    if (isset($_GET['page'])) {
-                        $page = $_GET['page'];
-                    } else {
-                        $page = 1;
-                    }
-                    if ($page == '' || $page == 1) {
-                        $begin = 0;
-                    } else {
-                        $begin = ($page * 9) - 9;
-                    }
-
-                    $products  = $product->showsp($id, $begin);
+                    }       
+                    $itemsPerPage = 9;
+                    $count = $product->countsp();
+                    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+                            $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+                            
+                            $begin = ($page == 1) ? 0 : ($page - 1) * $itemsPerPage;
+    
+                            $trang = ceil($count / $itemsPerPage);
+                            $products = $product->showsp($begin, $itemsPerPage);
+    
                     include "view/updateproduct.php";
                     break;
                 }
@@ -363,6 +404,8 @@ include "sidebar.php";
 
             case 'product':
                 $dmct = $danhmuc->showdanhmucchitietadmin();
+                $categories_details = $danhmuc->showdanhmucadmin();
+
                 if (isset($_POST['idcate'])) {
                     $idcate = $_POST['idcate'];
                     $categoryDetails = $danhmuc->get_idcate_by_catedetid($idcate);
@@ -378,25 +421,19 @@ include "sidebar.php";
                         echo '<option value="">Không có danh mục chi tiết</option>';
                     }
                 }
-                $categories_details = $danhmuc->showdanhmucadmin();
+                $categoryId = isset($_GET['category']) ? intval($_GET['category']) : '';
+                $categoryDetailsId = isset($_GET['category_details']) ? intval($_GET['category_details']) : '';                
+                $itemsPerPage = 9;
+                $count = $product->countsp($categoryId,$categoryDetailsId);
+                $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+                        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+                        
+                        $begin = ($page == 1) ? 0 : ($page - 1) * $itemsPerPage;
 
-                if (isset($_GET['id'])) {
-                    $id = $_GET['id'];
-                } else {
-                    $id = 0;
-                }
-                if (isset($_GET['page'])) {
-                    $page = $_GET['page'];
-                } else {
-                    $page = 1;
-                }
-                if ($page == '' || $page == 1) {
-                    $begin = 0;
-                } else {
-                    $begin = ($page * 9) - 9;
-                }
+                        $trang = ceil($count / $itemsPerPage);
+                        $products = $product->showsp($begin, $itemsPerPage, $categoryId, $categoryDetailsId);
 
-                $products  = $product->showsp($id, $begin);
+
                 include "view/product.php";
                 break;
             case 'exit': {
@@ -412,14 +449,11 @@ include "sidebar.php";
                 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
-                // Xác định vị trí bắt đầu của dữ liệu trên trang hiện tại
                 $begin = ($page > 1) ? ($page - 1) * 9 : 0;
 
-                // Lấy giá trị của các tham số lọc từ biểu mẫu POST hoặc từ URL
                 $tttt = isset($_GET['tttt']) ? $_GET['tttt'] : (isset($_POST['tttt']) ? $_POST['tttt'] : '');
                 $ttdh = isset($_GET['ttdh']) ? $_GET['ttdh'] : (isset($_POST['ttdh']) ? $_POST['ttdh'] : '');
 
-                // Kiểm tra dữ liệu biểu mẫu POST và thực hiện xử lý nếu có
                 if (isset($_POST['post'])) {
                     // Xử lý dữ liệu biểu mẫu POST một cách an toàn
                     if ($tttt == '-- Chọn trạng thái thanh toán --' || $ttdh == '-- Chọn trạng thái đơn hàng --') {
@@ -698,7 +732,7 @@ include "sidebar.php";
                 }
                 $countuser = count($user->countuser());
                 $countcate = count($danhmuc->showdanhmucadmin());
-                $countproduct = count($product->countsp());
+                $countproduct = $product->countsp();
                 $countcart = count($cart->countcart());
                 include "view/home.php";
                 break;
@@ -728,23 +762,24 @@ include "sidebar.php";
         }
         $countuser = count($user->countuser());
         $countcate = count($danhmuc->showdanhmucadmin());
-        $countproduct = count($product->countsp());
+        $countproduct = $product->countsp();
         $countcart = count($cart->countcart());
         include "view/home.php";
     }
 
     ?>
     <?php
-    if (isset($_SESSION['stt']) && $_SESSION['stt'] != '') {
+    if ((isset($_SESSION['stt']) && $_SESSION['stt'] != '') && (isset($_SESSION['icon']) && $_SESSION['icon'] != '')) {
     ?>
         <script>
             swal({
                 title: '<?php echo $_SESSION['stt'] ?>',
-                icon: "success",
+                icon: '<?php echo $_SESSION['icon'] ?>',
             });
         </script>
     <?php
         unset($_SESSION['stt']);
+        unset($_SESSION['icon']);
     }
     ?>
     <?php

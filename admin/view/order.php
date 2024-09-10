@@ -48,7 +48,7 @@
         </form>
     </div>
 </div>
-<table class="table table-hover">
+<table class="table table-hover table-striped">
     <thead>
         <th class="text-center">Mã đơn hàng</th>
         <th class="text-center">Tên KH</th>
@@ -73,11 +73,11 @@
         <td class="text-center"><?= $item['fullname'] ?></td>
         <td class="text-center"><?= $item['address'] ?></td>
         <td class="text-center"><?= $item['telephone'] ?></td>
-        <td class="text-center"><?= $item['total'] ?></td>
+        <td class="text-center"><?= number_format($item['total'], 0, ',', '.') . ' vnđ' ?></td>
         <td class="text-center"><?= get_paymethod($item['pay_method']) ?></td>
         <td class="text-center">
             <div class="form-group">
-                <select class="form-control" name="pay_status" id="sel1"
+                <select class="form-control" name="pay_status" id="sel1" style="width: 90px;"
                     onchange="paystatusupdate(this.options[this.selectedIndex].value,'<?php echo $item['cart_id'] ?>')">
                     <?php if ($item['pay_status'] == 0) : ?>
                     <option value="0" selected>Chưa thanh toán</option>
@@ -92,7 +92,7 @@
         </td>
         <td class="text-center">
             <div class="form-group">
-                <select class="form-control" name="cart_status" id="sel1"
+                <select class="form-control" name="cart_status" id="sel1" style="width: 90px;"
                     onchange="cartstatusupdate(this.options[this.selectedIndex].value,'<?php echo $item['cart_id'] ?>')">
                     <?php if ($item['cart_status'] == 0) : ?>
                     <option value="0" selected>Chưa xử lý</option>
@@ -134,9 +134,13 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             <?php
+                                    $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
             for ($j = 1; $j <= $totalpages; $j++) {
+                $activeClass = ($j == $currentPage) ? 'active' : '';
+
             ?>
-            <li class="page-item">
+            <li class="page-item <?php echo $activeClass; ?>">
                 <a class="page-link"
                     href="index.php?admin=order&page=<?php echo $j ?>&tttt=<?php echo isset($_GET['tttt']) ? $_GET['tttt'] : (isset($_POST['tttt']) ? $_POST['tttt'] : '') ?>&ttdh=<?php echo isset($_GET['ttdh']) ? $_GET['ttdh'] : (isset($_POST['ttdh']) ? $_POST['ttdh'] : '') ?>"><?php echo $j ?></a>
             </li>

@@ -15,7 +15,7 @@
             <td class="text-center"><?= $item['product_id']  ?></td>
             <td class="text-center"><?= $item['name']  ?></td>
             <td class="text-center"><?= $item['quantity'] ?></td>
-            <td class="text-center"><?= $item['price'] ?></td>
+            <td class="text-center"><?= number_format($item['price'], 0, ',', '.') . ' vnđ' ?></td>
         </tr>
         <?php endforeach; ?>
         <?php
@@ -33,16 +33,19 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
                 <?php
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
                 for ($j  = 1; $j <= $trang; $j++) {
+                    $activeClass = ($j == $currentPage) ? 'active' : '';
+
                     if (isset($_GET['id'])) {
                 ?>
-                <li class="page-item"><a class="page-link"
+                <li class="page-item <?php echo $activeClass; ?>"><a class="page-link"
                         href="index.php?admin=orderdetails&id=<?php echo $id ?>&page=<?php echo $j ?>"><?php echo $j; ?></a>
                 </li>
                 <?php
                     } else {
                     ?>
-                <li class="page-item"><a class="page-link"
+                <li class="page-item <?php echo $activeClass; ?>"><a class="page-link"
                         href="index.php?admin=orderdetails&page=<?php echo $j ?>"><?php echo $j ?></a>
                 </li>
                 <?php

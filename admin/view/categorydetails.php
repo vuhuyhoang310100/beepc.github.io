@@ -21,7 +21,7 @@
             <td class="text-center">' . $dmname . '</td>
         <td class="text-center">' . $name . '</td>
         <td class="text-center">
-        <a href="index.php?admin=delcatedet&iddet=' . $category_details_id . '" style="cursor: pointer;" class="nav-icon position-relative text-decoration-none ms-1" onclick="confirm(event)">
+        <a href="index.php?admin=delcatedet&iddet=' . $category_details_id . '" style="cursor: pointer;" class="nav-icon position-relative text-decoration-none ms-1"">
     <i class="fa fa-trash text-dark mr-2"></i>
     <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
     </a>
@@ -45,22 +45,23 @@
     <div class="d-flex justify-content-between">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
-                <?php
-
-                for ($j  = 1; $j <= $trang; $j++) {
-                    if (isset($_GET['id'])) {
-                ?>
-                        <li class="page-item"><a class="page-link" href="index.php?admin=categorydetails&id=<?php echo $id ?>&page=<?php echo $j ?>"><?php echo $j; ?></a>
-                        </li>
                     <?php
-                    } else {
+                        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+                    for ($j  = 1; $j <= $trang; $j++) {
+                        $activeClass = ($j == $currentPage) ? 'active' : '';
+                        if (isset($_GET['id'])) {
                     ?>
-                        <li class="page-item"><a class="page-link" href="index.php?admin=categorydetails&page=<?php echo $j ?>"><?php echo $j ?></a>
-                        </li>
-                <?php
+                            <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=categorydetails&id=<?php echo $id ?>&page=<?php echo $j ?>"><?php echo $j; ?></a>
+                            </li>
+                        <?php
+                        } else {
+                        ?>
+                            <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?admin=categorydetails&page=<?php echo $j ?>"><?php echo $j ?></a>
+                            </li>
+                    <?php
+                        }
                     }
-                }
-                ?>
+                    ?>
 
 
                 <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -116,41 +117,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function confirm(ev) {
-        ev.preventDefault();
-        var urlToRedirect = ev.currentTarget.getAttribute('href');
-        console.log(urlToRedirect);
-        swal({
-                title: "Bạn có chắc muốn xoá không ?",
-                icon: "warning",
-                dangerMode: true,
-                buttons: true,
 
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    swal("Xoá thành công !!!", {
-                        icon: "success",
-                    });
-                    setTimeout(function() {
-                        window.location.href = urlToRedirect;
-                    }, 1000);
-                } else {
-                    swal("Xoá không thành công !!!");
-                }
-            });
-    }
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- <script>
-    function confirmDelete(id) {
-        var result = confirm("Bạn có chắc chắn muốn xoá danh mục này không?");
-        if (result) {
-            window.location = "index.php?admin=delcatedet&iddet=" + id;
-        } else {
-            return false;
-            s
-        }
-    }
-</script> -->

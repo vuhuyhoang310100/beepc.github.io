@@ -71,7 +71,7 @@ if (isset($_SESSION['id_user'])) {
                                 <td>
                                     <select class="form-select" id="paymentMethod" name="paymentMethod">
                                         <option value="1">Tiền mặt</option>
-                                        <option value="2">Chuyển khoản ngân hàng</option>
+                                        <option value="2" disabled>Chuyển khoản ngân hàng</option>
                                         <option value="3">VNPay</option>
                                     </select>
                                 </td>
