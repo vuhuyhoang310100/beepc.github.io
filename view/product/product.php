@@ -122,14 +122,18 @@
      <nav aria-label="Page navigation example">
          <ul class="pagination justify-content-end">
              <?php
+                                 $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
                 for ($i  = 1; $i <= $trang; $i++) {
+                    $activeClass = ($j == $currentPage) ? 'active' : '';
+
                     if (isset($_GET['id'])) {
                 ?>
-                     <li class="page-item"><a class="page-link" href="index.php?act=product&id=<?php echo $id ?>&page=<?php echo $i ?>"><?php echo $i; ?></a></li>
+                     <li class="page-item <?php echo $activeClass; ?>"><a class="page-link" href="index.php?act=product&id=<?php echo $id ?>&page=<?php echo $i ?>"><?php echo $i; ?></a></li>
                  <?php
                     } else {
                     ?>
-                     <li class="page-item"><a class="page-link " href="index.php?act=product&page=<?php echo $i ?>"><?php echo $i; ?></a></li>
+                     <li class="page-item <?php echo $activeClass; ?>"><a class="page-link " href="index.php?act=product&page=<?php echo $i ?>"><?php echo $i; ?></a></li>
              <?php
                     }
                 }
