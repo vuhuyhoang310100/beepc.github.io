@@ -195,7 +195,6 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
                                                         $_SESSION['voucher'] = 0;
                                                 }
                                         } else {
-                                                // Xử lý trường hợp không có giá trị hợp lệ cho ngày bắt đầu hoặc kết thúc
                                                 $_SESSION['voucher'] = 0;
                                         }
                                 } else {
@@ -222,7 +221,6 @@ if ((isset($_GET['act'])) && ($_GET['act'] != "")) {
                                 }
 
                                 $codecart = "BeeTech" ."-".uniqid();
-                                //Sử dụng phương thức để trả về id vừa insert
                                 if ($paymentMethod == 1 || $paymentMethod == 2) {
                                         $idcart = $cart->insertcart($codecart, $iduser, $fullname, $add, $emailuser, $tel, $_SESSION['totalall'], $paymentMethod);
                                         if ($idcart) {

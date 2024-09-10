@@ -36,7 +36,6 @@ class Cart
         GROUP BY mname";
         $result = $this->db->executeQueryAll($sql);
         if (!empty($result)) {
-            // Lấy giá trị giảm từ kết quả truy vấn
             return $result;
         } else {
 
@@ -49,9 +48,7 @@ class Cart
         $sql = "SELECT * FROM discount WHERE code = '$safeVoucherCode'";
         $voucher = $this->db->executeQueryOne($sql);
 
-        // Kiểm tra xem voucher có tồn tại không
         if (!empty($voucher)) {
-            // Lấy giá trị giảm từ kết quả truy vấn
             return $voucher;
         } else {
 

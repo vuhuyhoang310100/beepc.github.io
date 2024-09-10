@@ -741,7 +741,6 @@ include "sidebar.php";
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $dataPoints1 = array();
         $dataPoints2 = array();
-        // Lấy ngày hiện tại
         $currentDate = date("Y-m-d");
         $startDate = date("Y-m-d 00:00:00", strtotime($currentDate));
         $endDate = date("Y-m-d 23:59:59", strtotime($currentDate));

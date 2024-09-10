@@ -20,7 +20,7 @@ if (!empty($id)) {
 
 
 
-$html = '<html>
+$html =  '<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
@@ -85,13 +85,10 @@ foreach ($rows as $value) {
         <td class="table-td">' . $value['quantity'] . '</td>
         <td class="table-td">' . number_format($price, 0, ',', '.') . ' vnđ</td>
         <td class="table-td">' . number_format($value['price'], 0, ',', '.') . ' vnđ</td>
-    </tr>';
-}
+    </tr>';}
 if ($sum >= 20000000) {
-    $ship = "Miễn phí";
-} else {
-    $ship = number_format(50000, 0, ',', '.') . ' vnđ';
-}
+    $ship = "Miễn phí";} else {
+    $ship = number_format(50000, 0, ',', '.') . ' vnđ';}
 $html .= '
 <tr>
 <td class="table-td" colspan="3">Ship: </td>
@@ -109,8 +106,6 @@ $html .= '
 </div>
 </body>
 </html>';
-
-
 $dompdf = new DOMPDF();
 $dompdf->loadHtml($html, 'UTF-8');
 $dompdf->setPaper('A4');

@@ -125,7 +125,7 @@
                                  $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
 
                 for ($i  = 1; $i <= $trang; $i++) {
-                    $activeClass = ($j == $currentPage) ? 'active' : '';
+                    $activeClass = ($i == $currentPage) ? 'active' : '';
 
                     if (isset($_GET['id'])) {
                 ?>
