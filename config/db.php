@@ -47,13 +47,11 @@ class Database
     {
         $result = mysqli_query($this->conn, $sql);
 
-        // Kiểm tra xem truy vấn có thành công không
         if ($result === false) {
             echo "Error: " . mysqli_error($this->conn);
             return false;
         }
 
-        // Nếu truy vấn thành công, trả về true
         return true;
     }
 

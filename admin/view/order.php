@@ -1,5 +1,10 @@
 <div class="w-75" style="margin: 20 20 20 300   ;">
-    <h3>Danh sách đơn hàng</h3>
+    <div class="d-flex align-items-center">
+        <div>            <h3 class>Danh sách đơn hàng</h3>
+        </div>
+        <div class="ml-3 mb-2">             <a href="export/export.php" alt="" class="btn btn-success">Export</a>
+        </div>
+    </div>
     <div class="container">
         <form method="POST" action="">
             <div class="row">

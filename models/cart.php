@@ -197,6 +197,18 @@ class Cart
         $datas = $this->db->executeQueryOne($sql);
         return $datas['pay_method'];
     }
+    function showpay_status($id)
+    {
+        $sql = "SELECT * FROM carts where cart_id = $id";
+        $datas = $this->db->executeQueryOne($sql);
+        return $datas['pay_status'];
+    }
+    function showcart_status($id)
+    {
+        $sql = "SELECT * FROM carts where cart_id = $id";
+        $datas = $this->db->executeQueryOne($sql);
+        return $datas['cart_status'];
+    }
     function insertcart($codecart, $userid, $fullname, $address, $email, $tel, $total, $paymethod)
     {
         $sql = "INSERT INTO carts(`code_cart`,`user_id`,`fullname`,`address`,`email`,`telephone`,`total`,`pay_method`) VALUES ('" . $codecart . "','" . $userid . "','" . $fullname . "','" . $address . "','" . $email . "','" . $tel . "','" . $total . "','" . $paymethod . "')";

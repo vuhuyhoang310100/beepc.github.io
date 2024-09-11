@@ -147,8 +147,6 @@ include "sidebar.php";
                     }
                 }
                 $categories_details = $danhmuc->showdanhmucadmin();
-
-               
                 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
                 $itemsPerPage = 9;

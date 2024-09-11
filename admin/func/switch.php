@@ -19,6 +19,40 @@ function get_paymethod($n)
   }
   return $method;
 }
+function pay_status($n)
+{
+  switch ($n) {
+    case '0':
+      $method = "Chưa thanh toán";
+      break;
+    case '1':
+      $method = "Đã thanh toán";
+      break;    
+  }
+  return $method;
+}
+function cart_status($n)
+{
+  switch ($n) {
+    case '0':
+      $method = "Chưa xử lý";
+      break;
+    case '1':
+      $method = "Đã xác nhận";
+      break;
+    case '2':
+      $method = "Đang giao hàng";
+      break;
+    case '3':
+        $method = "Hoàn tất";
+        break;
+
+
+  }
+  return $method;
+}
+
+
 function get_paystatus($n)
 {
   if ($n == 1) {
